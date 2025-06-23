@@ -74,6 +74,9 @@ SITE_ID = 1
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     ".grupoflesan.com"
+    "https://backfiniquitos.grupoflesan.com/"
+    "https://qafiniquitos.grupoflesan.com/panel/home",
+    "192.168.10.47"
 ]
 
 
