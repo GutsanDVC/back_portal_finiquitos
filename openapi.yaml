@@ -1,0 +1,216 @@
+openapi: 3.0.0
+info:
+  title: API Portal Finiquitos
+  version: 1.0.0
+  description: API para gestión de usuarios, roles y cálculo de finiquitos.
+
+servers:
+  - url: /api
+
+paths:
+  /auth/google/:
+    post:
+      summary: Login con Google OAuth2
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                access_token:
+                  type: string
+      responses:
+        '200':
+          description: Sesión iniciada correctamente
+
+  /users/:
+    get:
+      summary: Listar usuarios
+      parameters:
+        - in: query
+          name: np
+          schema: { type: string }
+        - in: query
+          name: centro_costo
+          schema: { type: string }
+        - in: query
+          name: nombre
+          schema: { type: string }
+      responses:
+        '200':
+          description: Lista de usuarios
+    post:
+      summary: Crear usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Usuario creado
+
+  /users/{id_aplicacion_usuario}/:
+    get:
+      summary: Detalle de usuario
+      parameters:
+        - in: path
+          name: id_aplicacion_usuario
+          required: true
+          schema: { type: integer }
+      responses:
+        '200':
+          description: Datos del usuario
+    put:
+      summary: Actualizar usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Usuario actualizado
+    delete:
+      summary: Eliminar (o desactivar) usuario
+      responses:
+        '204':
+          description: Usuario eliminado
+
+  /roles/:
+    get:
+      summary: Listar roles del sistema
+      responses:
+        '200':
+          description: Lista de roles
+
+  /users/{id_aplicacion_usuario}/roles/:
+    get:
+      summary: Listar roles asignados a un usuario
+      responses:
+        '200':
+          description: Lista de roles del usuario
+    post:
+      summary: Asignar rol a usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role_id:
+                  type: integer
+      responses:
+        '201':
+          description: Rol asignado
+
+  /users/{id_aplicacion_usuario}/roles/{id_rol}/:
+    delete:
+      summary: Quitar rol a usuario
+      responses:
+        '204':
+          description: Rol eliminado del usuario
+
+  /finiquitos/calculate/:
+    post:
+      summary: Calcular o simular finiquito
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FiniquitoInput'
+      responses:
+        '200':
+          description: Resultado del cálculo de finiquito
+
+  /finiquitos/{np}/:
+    get:
+      summary: Consultar cálculo de finiquito por NP
+      parameters:
+        - in: path
+          name: np
+          required: true
+          schema: { type: string }
+      responses:
+        '200':
+          description: Detalle del cálculo de finiquito
+
+  /finiquitos/export/:
+    get:
+      summary: Exportar finiquitos a Excel
+      parameters:
+        - in: query
+          name: centro_costo
+          schema: { type: string }
+        - in: query
+          name: fecha_ini
+          schema: { type: string, format: date }
+        - in: query
+          name: fecha_fin
+          schema: { type: string, format: date }
+      responses:
+        '200':
+          description: Archivo Excel exportado
+
+  /centros-costo/:
+    get:
+      summary: Listar centros de costo
+      responses:
+        '200':
+          description: Lista de centros de costo
+
+  /causales/:
+    get:
+      summary: Listar causales de término
+      responses:
+        '200':
+          description: Lista de causales
+
+  /tipos-contrato/:
+    get:
+      summary: Listar tipos de contrato
+      responses:
+        '200':
+          description: Lista de tipos de contrato
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        application: { type: integer }
+        username: { type: string }
+        fecha_ini: { type: string, format: date }
+        fecha_fin: { type: string, format: date, nullable: true }
+        name: { type: string }
+        provider: { type: string }
+        provider_id: { type: string }
+        remember_token: { type: string, nullable: true }
+        estado_sesion: { type: integer }
+        fecha_validacion: { type: string, format: date, nullable: true }
+        dni: { type: string }
+        nombres: { type: string }
+        apellidos: { type: string }
+        estado_validacion: { type: integer }
+        pais: { type: string }
+        refresh_token: { type: string, nullable: true }
+        avatar: { type: string, nullable: true }
+        password: { type: string }
+        old_id: { type: integer, nullable: true }
+        fecha_purga: { type: string, format: date, nullable: true }
+    FiniquitoInput:
+      type: object
+      properties:
+        np: { type: string }
+        fecha_ingreso: { type: string, format: date }
+        fecha_termino: { type: string, format: date }
+        dias_vacaciones: { type: integer }
+        tipo_contrato: { type: string }
+        causal_termino: { type: string }
+        descuento_afc: { type: number }
+        # Otros campos según tu lógica de cálculo

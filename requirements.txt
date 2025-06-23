@@ -1,0 +1,9 @@
+Django>=4.2,<5
+djangorestframework==3.14
+psycopg2-binary==2.9
+python-dotenv==1.0
+black>=24.0,<25
+flake8==7.0
+pytest==8.0
+allauth==0.56.0
+dj_rest_auth==2.1.0
