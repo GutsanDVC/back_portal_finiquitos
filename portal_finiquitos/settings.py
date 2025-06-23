@@ -11,9 +11,14 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+# Application definition
+import os
+from dotenv import load_dotenv
 
+# Carga las variables de entorno del archivo .env
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+load_dotenv(dotenv_path=BASE_DIR / '.env')
 
 
 # Quick-start development settings - unsuitable for production
@@ -34,13 +39,6 @@ ALLOWED_HOSTS = [
 ]
 
 
-# Application definition
-
-import os
-from dotenv import load_dotenv
-
-# Carga las variables de entorno del archivo .env
-load_dotenv()
 
 INSTALLED_APPS = [
     # Apps nativas de Django
@@ -79,8 +77,8 @@ SITE_ID = 1
 # Permitir peticiones CORS desde localhost:5173 (por ejemplo, para Vite, React, etc.)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    ".grupoflesan.com"
-    "https://backfiniquitos.grupoflesan.com/"
+    ".grupoflesan.com",
+    "https://backfiniquitos.grupoflesan.com/",
     "https://qafiniquitos.grupoflesan.com/panel/home",
     "192.168.10.47"
 ]
