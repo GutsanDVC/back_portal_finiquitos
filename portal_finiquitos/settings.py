@@ -25,7 +25,13 @@ SECRET_KEY = "django-insecure-7cb$#lx^)ja8phml(euccdb@reju=mmw8q3ch%)a1az)c*xdew
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "http://localhost:5173",
+    ".grupoflesan.com",
+    "https://backfiniquitos.grupoflesan.com/",
+    "https://qafiniquitos.grupoflesan.com/panel/home",
+    "192.168.10.47"
+]
 
 
 # Application definition
