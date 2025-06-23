@@ -15,6 +15,11 @@ def google_validate_id_token(*, id_token: str) -> dict:
 
     audience = token_info["aud"]
 
+    # Prints de depuración
+    print("audience recibido:", audience)
+    print("GOOGLE_AUTH_CLIENT_ID (os.getenv):", os.getenv("GOOGLE_AUTH_CLIENT_ID"))
+    print("GOOGLE_AUTH_CLIENT_ID (settings):", getattr(settings, "SOCIAL_AUTH_GOOGLE_CLIENT_ID", None))
+
     if audience != os.getenv("GOOGLE_AUTH_CLIENT_ID"):
         raise ValidationError("Invalid audience.")
 
