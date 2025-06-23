@@ -33,12 +33,13 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "http://localhost:5173",
     ".grupoflesan.com",
-    "https://backfiniquitos.grupoflesan.com/",
-    "https://qafiniquitos.grupoflesan.com/panel/home",
-    "192.168.10.47"
+    "https://backfiniquitos.grupoflesan.com",
+    "https://qafiniquitos.grupoflesan.com",
+    "192.168.10.47",
+    "127.0.0.1"
 ]
 
-
+GOOGLE_ID_TOKEN_INFO_URL = "https://www.googleapis.com/oauth2/v3/tokeninfo"
 
 INSTALLED_APPS = [
     # Apps nativas de Django
@@ -77,10 +78,11 @@ SITE_ID = 1
 # Permitir peticiones CORS desde localhost:5173 (por ejemplo, para Vite, React, etc.)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    ".grupoflesan.com",
-    "https://backfiniquitos.grupoflesan.com/",
-    "https://qafiniquitos.grupoflesan.com/panel/home",
-    "192.168.10.47"
+    "https://*.grupoflesan.com",
+    "https://backfiniquitos.grupoflesan.com",
+    "https://qafiniquitos.grupoflesan.com",
+    "https://192.168.10.47",
+    "https://127.0.0.1"
 ]
 
 
@@ -122,7 +124,7 @@ SOCIALACCOUNT_ADAPTER = 'users.adapters.NoNewUsersSocialAccountAdapter'
 
 
 # Variables de entorno para credenciales de Google
-SOCIAL_AUTH_GOOGLE_CLIENT_ID = os.getenv('SOCIAL_AUTH_GOOGLE_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_CLIENT_ID = os.getenv('GOOGLE_AUTH_CLIENT_ID')
 SOCIAL_AUTH_GOOGLE_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_SECRET')
 
 # Configuración de la base de datos PostgreSQL usando variables de entorno

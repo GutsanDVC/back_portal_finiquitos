@@ -20,6 +20,7 @@ from django.urls import path, include
 from users import urls as users_urls
 from warehouse import urls as warehouse_urls
 from settlements import urls as settlements_urls
+from auth import urls as auth_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +28,5 @@ urlpatterns = [
     path('api/warehouse/', include(warehouse_urls)),
     path('api/settlements/', include(settlements_urls)),
     path('api/users/', include(users_urls)),
-    path('auth/', include('dj_rest_auth.urls')),
-    path('auth/', include('allauth.socialaccount.urls')),
+    path('api/auth/', include(auth_urls)),
 ]
