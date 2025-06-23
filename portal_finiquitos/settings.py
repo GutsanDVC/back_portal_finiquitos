@@ -73,6 +73,7 @@ SITE_ID = 1
 # Permitir peticiones CORS desde localhost:5173 (por ejemplo, para Vite, React, etc.)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    ".grupoflesan.com"
 ]
 
 
