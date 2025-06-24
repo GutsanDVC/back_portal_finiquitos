@@ -28,8 +28,8 @@ class ColaboradorRepository:
         sql = DWConnectionUtils.sql_load('warehouse', 'listar_colaboradores.sql')
         params = []
         if centro_costo:
-            sql += ' AND centro_costo = %s'
-            params.append(centro_costo)
+            sql += ' AND centro_costo like %s'
+            params.append('%' + centro_costo + '%')
         else:
             # Solo paginar si no hay filtro de centro_costo
             if page is not None and page_size is not None:
