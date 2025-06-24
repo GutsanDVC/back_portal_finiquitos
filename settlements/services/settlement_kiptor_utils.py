@@ -67,7 +67,7 @@ def parsear_datos(request_data):
         "grat": request_data.get("form", {}).get("grat"),
         "tipo_solicitud": request_data.get("form", {}).get("tipo_solicitud"),
         "letraCausal": request_data.get("form", {}).get("letraCausal"),
-        "mes_aviso": 1 if request_data.get("form", {}).get("mes_aviso") else 0,
+        "mes_aviso": 1 if request_data.get("form", {}).get("mesAviso") else 0,
     }
 
 def parsear_resultado(resultado):
