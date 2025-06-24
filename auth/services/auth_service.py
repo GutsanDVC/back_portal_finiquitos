@@ -46,3 +46,22 @@ def parsear_admin_access(admin_access: list,user_data: dict) -> dict:
         return data
     data['admin_access'] = admin_access
     return data
+
+def parsear_global_access(global_access: list,user_data: dict) -> dict:
+    data={
+        "email":user_data.get("email"),
+        "name":user_data.get("name"),
+        "admin_access":[]
+    }
+    listar_centros_costo = CentroCostoRepository.listar_centros_costo()
+    access=[
+        {
+            "centro_costo":centro_costo,
+            "label":centro_costo.get("label"),
+            "name":centro_costo.get("name")
+        }
+        for centro_costo in listar_centros_costo
+    ]
+    data['admin_access'] = access
+    return data
+        
