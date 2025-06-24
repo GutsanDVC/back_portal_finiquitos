@@ -6,6 +6,7 @@ from settlements.services.settlement_kiptor_utils import (
     parsear_datos, parsear_resultado, parsear_todo,parsear_body_for_kiptor
 )
 from settlements.repositories.settlement_repository import SettlementRepository
+from warehouse.repositories.uf_repository import UfRepository
 
 class KiptorSettlementSimulatorView(APIView):
     """
@@ -19,8 +20,8 @@ class KiptorSettlementSimulatorView(APIView):
             # 2. Calcular datos para finiquito
             resultado_finiquito = SettlementRepository.calcular_finiquito(datos)
             resultado_finiquito_parseado = parsear_resultado(resultado_finiquito)
-            valor_uf=39000
-            datos['mes_aviso']=0
+            datos_uf=UfRepository.get_uf_by_date(datos['fecha_desvinculacion'])
+            valor_uf=datos_uf['valor_uf']
             body=parsear_body_for_kiptor(datos,resultado_finiquito_parseado,valor_uf)
             # 3. Simular con Kiptor
             resultado_kiptor = simulate_settlement_kiptor(body)

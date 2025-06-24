@@ -13,7 +13,7 @@ def get_kiptor_token():
         "usuario": KIPTOR_USER,
         "contrasena": KIPTOR_PASS
     }
-    response = requests.post(url, json=body, headers={"Content-Type": "application/json"})
+    response = requests.post(url, json=body, headers={"Content-Type": "application/json"},verify=False)
     if response.status_code == 200:
         return response.json().get("token")
     raise Exception(f"Error al autenticar en Kiptor: {response.status_code} - {response.text}")
@@ -45,7 +45,7 @@ def simulate_settlement_kiptor(data):
     }
     data_serialized = serialize_dates(data)
     print(data_serialized)
-    response = requests.post(url, json=data_serialized, headers=headers)
+    response = requests.post(url, json=data_serialized, headers=headers,verify=False)
     print(response.json())
     if response.status_code == 200:
         return response.json()

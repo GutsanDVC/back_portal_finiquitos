@@ -66,6 +66,8 @@ def parsear_datos(request_data):
         "fecha_desvinculacion": request_data.get("form", {}).get("fecha_desvinculacion"),
         "grat": request_data.get("form", {}).get("grat"),
         "tipo_solicitud": request_data.get("form", {}).get("tipo_solicitud"),
+        "letraCausal": request_data.get("form", {}).get("letraCausal"),
+        "mes_aviso": 1 if request_data.get("form", {}).get("mes_aviso") else 0,
     }
 
 def parsear_resultado(resultado):
@@ -114,7 +116,7 @@ def parsear_body_for_kiptor(data_colaborador,datos_finiquito,valor_uf):
             "fecha_ultimo_imposiciones": "",
             "fecha_proximo_imposiciones": "",
             "causal_derecho": data_colaborador['causalTermino'],
-            "letra":"\\N" ,
+            "letra":data_colaborador['letraCausal'] if data_colaborador['letraCausal'] else "\\N" ,
             "causal_hecho": ""
         }
     vacaciones = {
