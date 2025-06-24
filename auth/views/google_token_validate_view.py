@@ -4,7 +4,7 @@ from rest_framework import status
 from auth.services.auth_service import google_validate_id_token
 from django.core.exceptions import ValidationError
 from auth.services.admin_access_service import AdminAccessService
-from auth.services.auth_service import parsear_admin_access
+from auth.services.auth_service import parsear_admin_access,parsear_global_access
 
 class GoogleTokenValidateView(APIView):
     """
@@ -18,7 +18,10 @@ class GoogleTokenValidateView(APIView):
             user_data = google_validate_id_token(id_token=id_token)
             email = user_data.get("email")
             admin_access = AdminAccessService.get_admin_access(email)
-            data = parsear_admin_access(admin_access,user_data)
+            if admin_access.get("global_access"):
+                data = parsear_global_access(user_data)
+            else:
+                data = parsear_admin_access(admin_access,user_data)
             if not admin_access:
                 response = {
                     "valid": False,
