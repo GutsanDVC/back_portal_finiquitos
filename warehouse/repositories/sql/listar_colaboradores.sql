@@ -13,8 +13,17 @@ SELECT
     nombre_centro_costo,
     external_cod_tipo_contrato, 
     fecha_fin_contrato, 
-    fecha_termino
+    fecha_termino,
+    nombre_cargo,
+    planta_noplanta
 FROM 
-    flesan_rrhh.sap_maestro_colaborador
-WHERE 
+    flesan_rrhh.sap_maestro_colaborador colaboradores
+left join 
+flesan_rrhh.sap_maestro_cargos cargos
+on
+colaboradores.external_cod_cargo =cargos.external_code
+    WHERE 
     empl_status='41111'
+    --filter--
+    order by  user_id
+

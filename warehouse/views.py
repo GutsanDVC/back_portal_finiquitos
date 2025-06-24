@@ -10,10 +10,11 @@ class SapMaestroColaboradorListView(APIView):
     Si no hay filtro de centro_costo, aplica paginación (?page, ?page_size).
     """
     def get(self, request, *args, **kwargs):
-        centro_costo = request.query_params.get('centro_costo')
+        centro_costo = request.query_params.get('centro_costo') or None
+        ver_planta = request.query_params.get('ver_planta') or None
         try:
             if centro_costo:
-                colaboradores = ColaboradorRepository.listar_colaboradores(centro_costo=centro_costo)
+                colaboradores = ColaboradorRepository.listar_colaboradores(centro_costo=centro_costo,ver_planta=ver_planta)
                 res= {
                     'results': colaboradores,
                     'page': 1,

@@ -18,7 +18,6 @@ class GoogleTokenValidateView(APIView):
             user_data = google_validate_id_token(id_token=id_token)
             email = user_data.get("email")
             admin_access = AdminAccessService.get_admin_access(email)
-            print(admin_access)
             if admin_access[0].get("global_access"):
                 data = parsear_global_access(user_data)
             else:
