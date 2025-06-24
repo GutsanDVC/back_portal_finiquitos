@@ -175,7 +175,7 @@ def parsear_todo(request_data, resultado_finiquito, resultado_kiptor):
         "total_finiquito": body.get("total_finiquito"),
         "fecha_desvinculacion": request_data.get("form", {}).get("fecha_desvinculacion"),
         "causal": request_data.get("form", {}).get("causalTermino"),
-        "letra_causal": get_letra_causal(request_data.get("form", {}).get("causalTermino")),
+        "letra_causal": request_data.get("form", {}).get("letraCausal"),
         "fecha_inset": resultado_finiquito.get("fecha_inset"),
         "national_id": request_data.get("national_id"),
         "first_name": request_data.get("first_name"),
