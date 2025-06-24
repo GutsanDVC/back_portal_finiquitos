@@ -7,6 +7,10 @@ class GlobalAccessUser(models.Model):
     # Fecha de creación del registro (auditoría básica)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        # Indica a Django que la tabla debe crearse en el esquema 'portal_finiquitos'
+        db_table = 'global_access_user'
+
     def __str__(self):
         # Representación legible del modelo
         return self.email

@@ -1,10 +1,10 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from auth.services.auth_service import google_validate_id_token
+from custom_auth.services.auth_service import google_validate_id_token
 from django.core.exceptions import ValidationError
-from auth.services.admin_access_service import AdminAccessService
-from auth.services.auth_service import parsear_admin_access,parsear_global_access
+from custom_auth.services.admin_access_service import AdminAccessService
+from custom_auth.services.auth_service import parsear_admin_access,parsear_global_access
 
 class GoogleTokenValidateView(APIView):
     """
@@ -18,7 +18,8 @@ class GoogleTokenValidateView(APIView):
             user_data = google_validate_id_token(id_token=id_token)
             email = user_data.get("email")
             admin_access = AdminAccessService.get_admin_access(email)
-            if admin_access.get("global_access"):
+            print(admin_access)
+            if admin_access[0].get("global_access"):
                 data = parsear_global_access(user_data)
             else:
                 data = parsear_admin_access(admin_access,user_data)
@@ -29,6 +30,7 @@ class GoogleTokenValidateView(APIView):
                     "message": 'El usuario no tiene obras para administrar.'
                 }
             else:
+                
                 response = {
                     "valid": True,
                     "data": data,

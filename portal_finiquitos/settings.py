@@ -56,7 +56,8 @@ INSTALLED_APPS = [
     "audit",         # Logs y trazabilidad de acciones
     "core",          # Utilidades y configuración global
     "warehouse",     # Almacén de datos
-
+    "custom_auth",          # Autenticación
+    
     # Autenticación social y API REST
     "django.contrib.sites",         # Requerido por allauth
     "allauth",
@@ -137,7 +138,7 @@ DATABASES = {
         'PORT': os.getenv('DB_PORT'),              # Puerto de la base de datos principal
         # Configuración del search_path para usar ambos esquemas
         'OPTIONS': {
-            'options': '-c search_path=portal_finiquitos,seguridadapp,public'
+            'options': '-c search_path=portal_finiquitos'
         },
     },
     'datawarehouse': {
@@ -147,8 +148,6 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD_DW'),   # Contraseña del usuario DW
         'HOST': os.getenv('DB_HOST_DW'),           # Host del Data Warehouse
         'PORT': os.getenv('DB_PORT_DW'),           # Puerto del Data Warehouse
-        # Puedes agregar opciones específicas si tu DW lo requiere
-        # 'OPTIONS': {},
     },
 }
 

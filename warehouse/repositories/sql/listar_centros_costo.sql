@@ -1,8 +1,5 @@
-select
-	distinct centro_costo,
-	nombre_centro_costo,
-	concat(centro_costo, '-', nombre_centro_costo) as label
-from
-	flesan_rrhh.sap_maestro_colaborador
-order by
-	centro_costo;
+SELECT 
+	distinct centro_costo
+	,empresa
+FROM flesan_rrhh.sap_maestro_colaborador AS smc
+order by empresa;

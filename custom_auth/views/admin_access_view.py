@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from auth.services.admin_access_service import AdminAccessService
+from custom_auth.services.admin_access_service import AdminAccessService
 
 class AdminAccessView(APIView):
     """

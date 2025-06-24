@@ -20,7 +20,7 @@ from django.urls import path, include
 from users import urls as users_urls
 from warehouse import urls as warehouse_urls
 from settlements import urls as settlements_urls
-from auth import urls as auth_urls
+from custom_auth import urls as auth_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),

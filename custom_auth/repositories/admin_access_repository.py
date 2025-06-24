@@ -3,7 +3,7 @@ from utils.dw_utils import DWConnectionUtils
 class AdminAccessRepository:
     @staticmethod
     def get_admin_access_by_email(email: str):
-        sql = DWConnectionUtils.sql_load('auth', 'get_admin_access.sql')
+        sql = DWConnectionUtils.sql_load('custom_auth', 'get_admin_access.sql')
         try:
             with DWConnectionUtils.get_dw_connection() as conn:
                 with conn.cursor() as cursor:

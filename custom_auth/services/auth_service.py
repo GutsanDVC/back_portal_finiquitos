@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.exceptions import ValidationError
 import requests
 import os
+from warehouse.repositories.centro_costo_repository import CentroCostoRepository
 
 def google_validate_id_token(*, id_token: str) -> dict:
 
@@ -16,9 +17,6 @@ def google_validate_id_token(*, id_token: str) -> dict:
     audience = token_info["aud"]
 
     # Prints de depuración
-    print("audience recibido:", audience)
-    print("GOOGLE_AUTH_CLIENT_ID (os.getenv):", os.getenv("GOOGLE_AUTH_CLIENT_ID"))
-    print("GOOGLE_AUTH_CLIENT_ID (settings):", getattr(settings, "SOCIAL_AUTH_GOOGLE_CLIENT_ID", None))
 
     if audience != os.getenv("GOOGLE_AUTH_CLIENT_ID"):
         raise ValidationError("Invalid audience.")
@@ -53,10 +51,12 @@ def parsear_global_access(user_data: dict) -> dict:
         "name":user_data.get("name"),
         "admin_access":[]
     }
+    #print(data)
     listar_centros_costo = CentroCostoRepository.listar_centros_costo()
     access=[
         {
             "cc":centro_costo.get("centro_costo"),
+            "empresa":centro_costo.get("empresa"),
             "ver_planta":True,
         }
         for centro_costo in listar_centros_costo
