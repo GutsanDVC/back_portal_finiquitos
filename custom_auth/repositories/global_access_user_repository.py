@@ -9,6 +9,7 @@ def crear_usuario_global(np, nombre, email, usuario_creo):
     """
     Inserta un nuevo usuario global en la tabla existente usando SQL directo.
     """
+    email=email.lower() # Convertir a minúsculas para hacer la búsqueda insensible a mayúsculas y minúsculas
     with connection.cursor() as cursor:
         cursor.execute("""
             INSERT INTO portal_finiquitos.global_access_user (np, nombre, email, usuario_creo, created_at)
@@ -49,6 +50,7 @@ def obtener_usuario_por_email(email):
     """
     Obtiene un usuario global por su email.
     """
+    email=email.lower() # Convertir a minúsculas para hacer la búsqueda insensible a mayúsculas y minúsculas
     with connection.cursor() as cursor:
         cursor.execute("""
             SELECT np, nombre, email, usuario_creo, created_at
