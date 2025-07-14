@@ -127,7 +127,6 @@ def parsear_body_for_kiptor(data_colaborador,datos_finiquito,valor_uf):
     conceptos = {
             "imp": {
                 "sueldo_base":datos_finiquito['BASE'],
-                
             },
             "nimp": {},
         }
@@ -145,8 +144,11 @@ def parsear_body_for_kiptor(data_colaborador,datos_finiquito,valor_uf):
     if datos_finiquito.get('INDEMNIZACION'):
         conceptos['adicionales']['indemnizacion'] = datos_finiquito['INDEMNIZACION']
     if datos_finiquito.get('DESCUENTO'):
-        conceptos['descuentos']['descuento'] = datos_finiquito['DESCUENTO']
-    
+        conceptos['descuentos'] = {}
+        conceptos['descuentos']['descuento'] = datos_finiquito['DESCUENTO']+data_colaborador['descuentoAfc']
+    elif data_colaborador['descuentoAfc']>0:
+        conceptos['descuentos'] = {}
+        conceptos['descuentos']['descuento'] = data_colaborador['descuentoAfc']
     return {
         "finiquito": finiquito,
         "conceptos": conceptos,

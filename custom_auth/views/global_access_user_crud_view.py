@@ -24,6 +24,7 @@ class GlobalAccessUserListCreateView(APIView):
         np = data.get('np')
         nombre = data.get('nombre')
         email = data.get('email')
+        email=email.lower()
         usuario_creo = data.get('usuario_creo')
         if not np or not nombre or not email or not usuario_creo:
             return Response({'error': 'Todos los campos son obligatorios.'}, status=status.HTTP_400_BAD_REQUEST)
