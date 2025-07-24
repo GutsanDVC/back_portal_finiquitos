@@ -26,6 +26,7 @@ def obtener_usuarios_globales():
         cursor.execute("""
             SELECT np, nombre, email, usuario_creo, created_at
             FROM portal_finiquitos.global_access_user
+            WHERE activo = true
         """)
         columns = [col[0] for col in cursor.description]
         return [dict(zip(columns, row)) for row in cursor.fetchall()]
@@ -38,7 +39,7 @@ def obtener_usuario_por_np(np):
         cursor.execute("""
             SELECT np, nombre, email, usuario_creo, created_at
             FROM portal_finiquitos.global_access_user
-            WHERE np = %s
+            WHERE np = %s AND activo = true
         """, [np])
         row = cursor.fetchone()
         if row:
@@ -55,12 +56,14 @@ def obtener_usuario_por_email(email):
         cursor.execute("""
             SELECT np, nombre, email, usuario_creo, created_at
             FROM portal_finiquitos.global_access_user
-            WHERE email = %s
+            WHERE email = %s AND activo = true
         """, [email])
         row = cursor.fetchone()
         if row:
             columns = [col[0] for col in cursor.description]
-            return dict(zip(columns, row))
+            response = dict(zip(columns, row))
+            print(response)
+            return response
         return None
 
 # UPDATE

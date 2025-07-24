@@ -35,6 +35,7 @@ class GoogleTokenValidateView(APIView):
                     "data": data,
                     "message": 'El usuario tiene obras para administrar.'
                 }
+            response['data']['global_access']=True if admin_access[0].get("global_access") else False    
             return Response(response, status=status.HTTP_200_OK)
         except ValidationError as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
