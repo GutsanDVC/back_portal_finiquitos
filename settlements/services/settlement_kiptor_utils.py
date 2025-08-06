@@ -1,43 +1,43 @@
 from datetime import datetime
 
-class FiniquitoRequestData:
-    """
-    Clase para estructurar el payload exactamente como lo requiere la API de Kiptor,
-    con las propiedades y formato del ejemplo proporcionado.
-    """
-    def __init__(self, data):
-        self.finiquito = {
-            "carta_aviso": data["finiquito"].get("carta_aviso", 0),
-            "isap": data["finiquito"].get("isap", 1),
-            "tope_indemnizaciones": data["finiquito"].get("tope_indemnizaciones", 1),
-            "valor_uf": data["finiquito"].get("valor_uf", 37000),
-            "tope_anios": data["finiquito"].get("tope_anios", 1),
-            "fecha_ingreso": data["finiquito"].get("fecha_ingreso", ""),
-            "fecha_termino": data["finiquito"].get("fecha_termino", ""),
-            "fecha_ultimo_imposiciones": data["finiquito"].get("fecha_ultimo_imposiciones", ""),
-            "fecha_proximo_imposiciones": data["finiquito"].get("fecha_proximo_imposiciones", ""),
-            "causal_derecho": data["finiquito"].get("causal_derecho", ""),
-            "letra": data["finiquito"].get("letra", ""),
-            "causal_hecho": data["finiquito"].get("causal_hecho", "")
-        }
-        self.conceptos = {
-            "imp": data["conceptos"].get("imp", {}),
-            "nimp": data["conceptos"].get("nimp", {}),
-            "adicionales": data["conceptos"].get("adicionales", {}),
-            "descuentos": data["conceptos"].get("descuentos", {})
-        }
-        self.vacaciones = {
-            "factor_diario": data["vacaciones"].get("factor_diario", 0),
-            "saldo_en_dias": data["vacaciones"].get("saldo_en_dias", 0),
-            "fecha_saldo": data["vacaciones"].get("fecha_saldo", "")
-        }
+# class FiniquitoRequestData:
+#     """
+#     Clase para estructurar el payload exactamente como lo requiere la API de Kiptor,
+#     con las propiedades y formato del ejemplo proporcionado.
+#     """
+#     def __init__(self, data):
+#         self.finiquito = {
+#             "carta_aviso": data["finiquito"].get("carta_aviso", 0),
+#             "isap": data["finiquito"].get("isap", 1),
+#             "tope_indemnizaciones": data["finiquito"].get("tope_indemnizaciones", 1),
+#             "valor_uf": data["finiquito"].get("valor_uf", 37000),
+#             "tope_anios": data["finiquito"].get("tope_anios", 1),
+#             "fecha_ingreso": data["finiquito"].get("fecha_ingreso", ""),
+#             "fecha_termino": data["finiquito"].get("fecha_termino", ""),
+#             "fecha_ultimo_imposiciones": data["finiquito"].get("fecha_ultimo_imposiciones", ""),
+#             "fecha_proximo_imposiciones": data["finiquito"].get("fecha_proximo_imposiciones", ""),
+#             "causal_derecho": data["finiquito"].get("causal_derecho", ""),
+#             "letra": data["finiquito"].get("letra", ""),
+#             "causal_hecho": data["finiquito"].get("causal_hecho", "")
+#         }
+#         self.conceptos = {
+#             "imp": data["conceptos"].get("imp", {}),
+#             "nimp": data["conceptos"].get("nimp", {}),
+#             "adicionales": data["conceptos"].get("adicionales", {}),
+#             "descuentos": data["conceptos"].get("descuentos", {})
+#         }
+#         self.vacaciones = {
+#             "factor_diario": data["vacaciones"].get("factor_diario", 0),
+#             "saldo_en_dias": data["vacaciones"].get("saldo_en_dias", 0),
+#             "fecha_saldo": data["vacaciones"].get("fecha_saldo", "")
+#         }
 
-    def __str__(self):
-        return str({
-            "finiquito": self.finiquito,
-            "conceptos": self.conceptos,
-            "vacaciones": self.vacaciones
-        })
+#     def __str__(self):
+#         return str({
+#             "finiquito": self.finiquito,
+#             "conceptos": self.conceptos,
+#             "vacaciones": self.vacaciones
+#         })
 
 
 def parsear_datos(request_data):
@@ -128,21 +128,32 @@ def parsear_body_for_kiptor(data_colaborador,datos_finiquito,valor_uf):
             "imp": {
                 "sueldo_base":datos_finiquito['BASE'],
             },
-            "nimp": {},
         }
+    
     # Usar .get() para evitar KeyError y permitir valores opcionales
     if datos_finiquito.get('GRATIFICACION'):
         conceptos['imp']['gratificacion'] = datos_finiquito['GRATIFICACION']
     if datos_finiquito.get('VARIABLE_IM'):
         conceptos['imp']['variable'] = datos_finiquito['VARIABLE_IM']
     if datos_finiquito.get('VARIABLE_NI'):
+        # Crear la clave 'nimp' si no existe
+        conceptos.setdefault('nimp', {})
         conceptos['nimp']['variable'] = datos_finiquito['VARIABLE_NI']
+    
     if datos_finiquito.get('MOVILIZACION'):
+        # Crear la clave 'nimp' si no existe
+        conceptos.setdefault('nimp', {})
         conceptos['nimp']['movilizacion'] = datos_finiquito['MOVILIZACION']
+    
     if datos_finiquito.get('COLACION'):
+        # Crear la clave 'nimp' si no existe
+        conceptos.setdefault('nimp', {})
         conceptos['nimp']['colacion'] = datos_finiquito['COLACION']
     if datos_finiquito.get('INDEMNIZACION'):
+        # Crear la clave 'adicionales' si no existe
+        conceptos.setdefault('adicionales', {})
         conceptos['adicionales']['indemnizacion'] = datos_finiquito['INDEMNIZACION']
+    
     if datos_finiquito.get('DESCUENTO'):
         conceptos['descuentos'] = {}
         conceptos['descuentos']['descuento'] = datos_finiquito['DESCUENTO']+data_colaborador['descuentoAfc']
