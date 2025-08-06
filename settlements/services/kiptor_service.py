@@ -44,9 +44,7 @@ def simulate_settlement_kiptor(data):
         "Authorization": token
     }
     data_serialized = serialize_dates(data)
-    print(data_serialized)
     response = requests.post(url, json=data_serialized, headers=headers,verify=False)
-    print(response.json())
     if response.status_code == 200:
         return response.json()
     raise Exception(f"Error al simular finiquito: {response.status_code} - {response.text}")

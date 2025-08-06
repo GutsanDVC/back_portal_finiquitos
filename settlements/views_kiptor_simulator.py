@@ -7,6 +7,8 @@ from settlements.services.settlement_kiptor_utils import (
 )
 from settlements.repositories.settlement_repository import SettlementRepository
 from warehouse.repositories.uf_repository import UfRepository
+from log.log_finiquitos_repository import crear_log_finiquito
+from datetime import datetime
 
 class KiptorSettlementSimulatorView(APIView):
     """
