@@ -30,6 +30,36 @@ class SapMaestroColaboradorListView(APIView):
         except Exception as e:
             # Retorna error genérico y mensaje para debug
             return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+class ColaboradorPorCorreoView(APIView):
+    """
+    Endpoint para buscar un colaborador específico por su correo electrónico.
+    Requiere el parámetro 'correo' en la URL como query parameter.
+    """
+    def get(self, request, *args, **kwargs):
+        correo_flesan = request.query_params.get('correo')
+        
+        if not correo_flesan:
+            return Response(
+                {'detail': 'El parámetro "correo" es requerido'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            colaborador = ColaboradorRepository.buscar_colaborador_por_correo(correo_flesan)
+            
+            if colaborador:
+                return Response(colaborador, status=status.HTTP_200_OK)
+            else:
+                return Response(
+                    {'detail': 'No se encontró ningún colaborador con el correo proporcionado'}, 
+                    status=status.HTTP_404_NOT_FOUND
+                )
+                
+        except Exception as e:
+            # Retorna error genérico y mensaje para debug
+            return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 class ExternalCode162ListView(APIView):
     """
 

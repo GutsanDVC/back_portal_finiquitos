@@ -41,6 +41,18 @@ class ColaboradorRepository:
         return DWConnectionUtils.fetch_dicts(sql, params)
     
     @staticmethod
+    def buscar_colaborador_por_correo(correo_flesan):
+        """
+        Busca un colaborador específico por su correo electrónico.
+        Retorna un dict con los datos del colaborador o None si no se encuentra.
+        """
+        # Cargar la query desde archivo usando la utilidad
+        sql = DWConnectionUtils.sql_load('warehouse', 'buscar_colaborador_por_correo.sql')
+        # Usar la utilidad general para ejecutar la consulta y obtener los resultados
+        result = DWConnectionUtils.fetch_dicts(sql, [correo_flesan])
+        return result[0] if result else None
+    
+    @staticmethod
     def external_code_162():
         # Cargar la query desde archivo usando la utilidad
         sql = DWConnectionUtils.sql_load('warehouse', 'external_code_162.sql')

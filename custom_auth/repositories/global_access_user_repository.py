@@ -5,16 +5,16 @@ from django.db import connection
 
 # CREATE
 
-def crear_usuario_global(np, nombre, email, usuario_creo):
+def crear_usuario_global(np, nombre, email, usuario_creo,activo,ver_nfg):
     """
     Inserta un nuevo usuario global en la tabla existente usando SQL directo.
     """
     email=email.lower() # Convertir a minúsculas para hacer la búsqueda insensible a mayúsculas y minúsculas
     with connection.cursor() as cursor:
         cursor.execute("""
-            INSERT INTO portal_finiquitos.global_access_user (np, nombre, email, usuario_creo, created_at)
-            VALUES (%s, %s, %s, %s, NOW())
-        """, [np, nombre, email, usuario_creo])
+            INSERT INTO portal_finiquitos.global_access_user (np, nombre, email, usuario_creo, created_at,activo,ver_nfg)
+            VALUES (%s, %s, %s, %s, NOW(),%s,%s)
+        """, [np, nombre, email, usuario_creo,activo,ver_nfg])
 
 # READ
 
@@ -24,7 +24,7 @@ def obtener_usuarios_globales():
     """
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT np, nombre, email, usuario_creo, created_at
+            SELECT np, nombre, email, usuario_creo, created_at,activo,ver_nfg
             FROM portal_finiquitos.global_access_user
             WHERE activo = true
         """)
@@ -37,7 +37,7 @@ def obtener_usuario_por_np(np):
     """
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT np, nombre, email, usuario_creo, created_at
+            SELECT np, nombre, email, usuario_creo, created_at, activo, ver_nfg
             FROM portal_finiquitos.global_access_user
             WHERE np = %s AND activo = true
         """, [np])
@@ -54,7 +54,7 @@ def obtener_usuario_por_email(email):
     email=email.lower() # Convertir a minúsculas para hacer la búsqueda insensible a mayúsculas y minúsculas
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT np, nombre, email, usuario_creo, created_at
+            SELECT np, nombre, email, usuario_creo, created_at, activo, ver_nfg
             FROM portal_finiquitos.global_access_user
             WHERE email = %s AND activo = true
         """, [email])
@@ -62,13 +62,12 @@ def obtener_usuario_por_email(email):
         if row:
             columns = [col[0] for col in cursor.description]
             response = dict(zip(columns, row))
-            print(response)
             return response
         return None
 
 # UPDATE
 
-def actualizar_usuario_global(np, nombre=None, email=None, usuario_creo=None):
+def actualizar_usuario_global(np, nombre=None, email=None, usuario_creo=None, activo=None, ver_nfg=None):
     """
     Actualiza los datos de un usuario global identificado por su np.
     Solo actualiza los campos que se pasan como argumento.
@@ -84,6 +83,12 @@ def actualizar_usuario_global(np, nombre=None, email=None, usuario_creo=None):
     if usuario_creo is not None:
         campos.append('usuario_creo = %s')
         valores.append(usuario_creo)
+    if activo is not None:
+        campos.append('activo = %s')
+        valores.append(activo)
+    if ver_nfg is not None:
+        campos.append('ver_nfg = %s')
+        valores.append(ver_nfg)
     if not campos:
         return False  # Nada que actualizar
     valores.append(np)

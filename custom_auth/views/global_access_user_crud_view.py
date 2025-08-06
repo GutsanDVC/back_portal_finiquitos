@@ -24,6 +24,9 @@ class GlobalAccessUserListCreateView(APIView):
         np = data.get('np')
         nombre = data.get('nombre')
         email = data.get('email')
+        # Usar valores por defecto solo si el campo no está presente (None)
+        activo = data.get('activo', True)  # True por defecto si no se especifica
+        ver_nfg = data.get('ver_nfg', False)  # False por defecto si no se especifica
         email=email.lower()
         usuario_creo = data.get('usuario_creo')
         if not np or not nombre or not email or not usuario_creo:
@@ -31,7 +34,7 @@ class GlobalAccessUserListCreateView(APIView):
         if existe_email_o_np(email, np):
             return Response({'error': 'El email o número personal ya existe.'}, status=status.HTTP_400_BAD_REQUEST)
         try:
-            crear_usuario_global(np, nombre, email, usuario_creo)
+            crear_usuario_global(np, nombre, email, usuario_creo,activo,ver_nfg)
             return Response({'np': np, 'nombre': nombre, 'email': email, 'usuario_creo': usuario_creo}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': f'Error al crear usuario: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -53,6 +56,10 @@ class GlobalAccessUserDetailView(APIView):
         nombre = data.get('nombre')
         email = data.get('email')
         usuario_creo = data.get('usuario_creo')
+        # Usar valores por defecto solo si el campo no está presente (None)
+        activo = data.get('activo', True)  # True por defecto si no se especifica
+        ver_nfg = data.get('ver_nfg', False)  # False por defecto si no se especifica
+        email=email.lower()
         if not (nombre or email or usuario_creo):
             return Response({'error': 'Debe indicar al menos un campo a actualizar.'}, status=status.HTTP_400_BAD_REQUEST)
         # Si se va a actualizar el email o np, validar unicidad
@@ -62,7 +69,7 @@ class GlobalAccessUserDetailView(APIView):
                 return Response({'error': 'Usuario no encontrado.'}, status=status.HTTP_404_NOT_FOUND)
             if email and email != usuario_existente['email'] and existe_email_o_np(email, np):
                 return Response({'error': 'El email ya existe.'}, status=status.HTTP_400_BAD_REQUEST)
-        actualizado = actualizar_usuario_global(np, nombre=nombre, email=email, usuario_creo=usuario_creo)
+        actualizado = actualizar_usuario_global(np, nombre=nombre, email=email, usuario_creo=usuario_creo,activo=activo,ver_nfg=ver_nfg)
         if actualizado:
             return Response({'message': 'Usuario actualizado correctamente.'}, status=status.HTTP_200_OK)
         return Response({'error': 'No se pudo actualizar el usuario.'}, status=status.HTTP_400_BAD_REQUEST)

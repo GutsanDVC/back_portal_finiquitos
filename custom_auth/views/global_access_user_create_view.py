@@ -14,7 +14,8 @@ class GlobalAccessUserCreateView(APIView):
         nombre = data.get('nombre')
         email = data.get('email')
         usuario_creo = data.get('usuario_creo')
-
+        activo=data.get('activo') or True
+        ver_nfg=data.get('ver_nfg') or False
         # Validación básica
         if not np or not nombre or not email or not usuario_creo:
             return Response({'error': 'Todos los campos son obligatorios.'}, status=status.HTTP_400_BAD_REQUEST)
@@ -25,7 +26,7 @@ class GlobalAccessUserCreateView(APIView):
 
         # Insertar usuario
         try:
-            crear_usuario_global(np, nombre, email, usuario_creo)
+            crear_usuario_global(np, nombre, email, usuario_creo,activo,ver_nfg)
             return Response({'np': np, 'nombre': nombre, 'email': email, 'usuario_creo': usuario_creo}, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response({'error': f'Error al crear usuario: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

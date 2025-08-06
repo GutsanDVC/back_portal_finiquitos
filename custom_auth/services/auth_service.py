@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 import requests
 import os
 from warehouse.repositories.centro_costo_repository import CentroCostoRepository
+from custom_auth.repositories.global_access_user_repository import obtener_usuario_por_email
 
 def google_validate_id_token(*, id_token: str) -> dict:
 
@@ -34,10 +35,31 @@ def google_validate_id_token(*, id_token: str) -> dict:
     return user_data
 
 
+def puede_ver_nfg(email: str) -> bool:
+    """
+    Verifica si un usuario tiene permisos para ver la empresa NFG.
+    
+    Args:
+        email (str): Email del usuario a verificar
+        
+    Returns:
+        bool: True si el usuario puede ver NFG, False en caso contrario
+    """
+    try:
+        usuario = obtener_usuario_por_email(email)
+        if usuario:
+            return usuario.get('ver_nfg', False)
+        return False
+    except Exception:
+        # En caso de error, por seguridad retornamos False
+        return False
+
+
 def parsear_admin_access(admin_access: list,user_data: dict) -> dict:
     data={
         "email":user_data.get("email"),
         "name":user_data.get("name"),
+        "ver_nfg":puede_ver_nfg(user_data.get("email", "")),
         "admin_access":[]
     }
     if not admin_access:
@@ -49,9 +71,9 @@ def parsear_global_access(user_data: dict) -> dict:
     data={
         "email":user_data.get("email"),
         "name":user_data.get("name"),
+        "ver_nfg":puede_ver_nfg(user_data.get("email", "")),
         "admin_access":[]
     }
-    #print(data)
     listar_centros_costo = CentroCostoRepository.listar_centros_costo()
     access=[
         {
@@ -59,7 +81,7 @@ def parsear_global_access(user_data: dict) -> dict:
             "empresa":centro_costo.get("empresa"),
             "ver_planta":True,
         }
-        for centro_costo in listar_centros_costo
+        for centro_costo in listar_centros_costo if centro_costo.get("empresa")!='NFG' or data.get("ver_nfg")
     ]
     data['admin_access'] = access
     return data
