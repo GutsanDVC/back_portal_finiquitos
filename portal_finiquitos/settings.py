@@ -82,7 +82,9 @@ CORS_ALLOWED_ORIGINS = [
     "https://backfiniquitos.grupoflesan.com",
     "https://qafiniquitos.grupoflesan.com",
     "https://192.168.10.47",
-    "https://127.0.0.1"
+    "https://127.0.0.1",
+    "https://calculadorfiniquitos.grupoflesan.com",
+    "https://apicalculadorfiniquitos.grupoflesan.com"
 ]
 
 
