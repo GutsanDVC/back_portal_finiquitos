@@ -27,17 +27,13 @@ class ColaboradorRepository:
         # Cargar la query desde archivo usando la utilidad
         sql = DWConnectionUtils.sql_load('warehouse', 'listar_colaboradores.sql')
         params = []
-        # if ver_planta:
-        sql = sql.replace('--filter--', " AND centro_costo  in %s")            
-        params=[tuple(centro_costo)]
-        # else:
-        #     # Solo paginar si no hay filtro de centro_costo
-        #     sql = sql.replace('--filter--', " AND centro_costo  in (%s) AND planta_noplanta='NP'")
-        #     if page is not None and page_size is not None:
-        #         offset = (page - 1) * page_size
-        #         sql += ' OFFSET %s LIMIT %s'
-        #         params.extend([offset, page_size])
-        # Usar la utilidad general para ejecutar la consulta y obtener los resultados
+        if ver_planta:
+            sql = sql.replace('--filter--', " AND centro_costo  in %s")            
+            params=[tuple(centro_costo)]
+        else:
+            sql = sql.replace('--filter--', " AND centro_costo  in (%s) AND planta_noplanta='NP'")
+            params=[tuple(centro_costo)]
+            print(sql)
         return DWConnectionUtils.fetch_dicts(sql, params)
     
     @staticmethod

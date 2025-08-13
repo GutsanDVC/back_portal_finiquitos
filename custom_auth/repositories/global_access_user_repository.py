@@ -26,7 +26,7 @@ def obtener_usuarios_globales():
         cursor.execute("""
             SELECT np, nombre, email, usuario_creo, created_at,activo,ver_nfg
             FROM portal_finiquitos.global_access_user
-            WHERE activo = true
+            --WHERE activo = true
         """)
         columns = [col[0] for col in cursor.description]
         return [dict(zip(columns, row)) for row in cursor.fetchall()]
