@@ -81,10 +81,13 @@ def parsear_resultado(resultado):
          "fecha_saldo":  resultado[0]['fecha_vacacion']
     }
     for res in resultado:
-        if res['tipo_2'] == 'variable' and res['tipo'] == 'imponible':
-            datos['variable_im'] = res['importe']
-        if res['tipo_2'] == 'variable' and res['tipo'] == 'no imponible':
-            datos['variable_ni'] = res['importe']
+        print(res['tipo_2'].upper())
+        print(res['tipo'].upper())
+        if res['tipo_2'].upper() == 'VARIABLE' and res['tipo'].upper() == 'IMPONIBLE':
+
+            datos['VARIABLE_IM'] = res['importe']
+        if res['tipo_2'].upper() == 'VARIABLE' and res['tipo'].upper() == 'NO IMPONIBLE':
+            datos['VARIABLE_NI'] = res['importe']
         else:
             datos[res['tipo_2']] = res['importe']
 
@@ -129,7 +132,8 @@ def parsear_body_for_kiptor(data_colaborador,datos_finiquito,valor_uf):
                 "sueldo_base":datos_finiquito['BASE'],
             },
         }
-    
+    print(datos_finiquito.get('VARIABLE_IM'))
+    print(datos_finiquito.get('VARIABLE_NI'))
     # Usar .get() para evitar KeyError y permitir valores opcionales
     if datos_finiquito.get('GRATIFICACION'):
         conceptos['imp']['gratificacion'] = datos_finiquito['GRATIFICACION']
@@ -160,6 +164,9 @@ def parsear_body_for_kiptor(data_colaborador,datos_finiquito,valor_uf):
     elif data_colaborador['descuentoAfc']>0:
         conceptos['descuentos'] = {}
         conceptos['descuentos']['descuento'] = data_colaborador['descuentoAfc']
+    print({
+        "conceptos": conceptos,
+    })
     return {
         "finiquito": finiquito,
         "conceptos": conceptos,
