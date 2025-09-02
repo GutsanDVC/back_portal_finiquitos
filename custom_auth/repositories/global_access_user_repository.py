@@ -17,6 +17,11 @@ def get_db_connection():
     db_password = os.getenv('DB_PASSWORD')
     db_host = os.getenv('DB_HOST')
     db_port = os.getenv('DB_PORT', '5432')
+    print(db_name)
+    print(db_user)
+    print(db_password)
+    print(db_host)
+    print(db_port)
     if not all([db_name, db_user, db_password, db_host, db_port]):
         raise RuntimeError('Faltan variables de entorno de base de datos (DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT).')
     return psycopg2.connect(dbname=db_name, user=db_user, password=db_password, host=db_host, port=db_port)

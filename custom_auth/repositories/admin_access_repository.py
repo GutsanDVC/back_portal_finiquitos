@@ -8,6 +8,8 @@ class AdminAccessRepository:
             with DWConnectionUtils.get_dw_connection() as conn:
                 with conn.cursor() as cursor:
                     cursor.execute(sql, {'correo': email})
+                    print(cursor)
+                    print(cursor.description)
                     columns = [desc[0] for desc in cursor.description]
                     rows = cursor.fetchall()
                     if not rows:

@@ -12,12 +12,14 @@ class GoogleTokenValidateView(APIView):
     """
     def post(self, request):
         id_token = request.data.get("id_token")
+        print(id_token)
         if not id_token:
             return Response({"error": "El campo id_token es requerido."}, status=status.HTTP_400_BAD_REQUEST)
         try:
             user_data = google_validate_id_token(id_token=id_token)
             email = user_data.get("email")
             admin_access = AdminAccessService.get_admin_access(email)
+            print(admin_access)
             if len(admin_access) == 0:
                 response = {
                     "valid": False,

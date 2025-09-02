@@ -35,7 +35,9 @@ ALLOWED_HOSTS = [
     "https://backfiniquitos.grupoflesan.com",
     "https://qafiniquitos.grupoflesan.com",
     "192.168.10.47",
-    "127.0.0.1"
+    "127.0.0.1",
+    "https://calculadorfiniquitos.grupoflesan.com",
+    "https://apicalculadorfiniquitos.grupoflesan.com"
 ]
 
 GOOGLE_ID_TOKEN_INFO_URL = "https://www.googleapis.com/oauth2/v3/tokeninfo"
