@@ -18,19 +18,19 @@ class GoogleTokenValidateView(APIView):
             user_data = google_validate_id_token(id_token=id_token)
             email = user_data.get("email")
             admin_access = AdminAccessService.get_admin_access(email)
+            if len(admin_access) == 0:
+                response = {
+                    "valid": False,
+                    "data": None,
+                    "message": 'El usuario no tiene obras para administrar.'
+                }
+                return Response(response, status=status.HTTP_401_UNAUTHORIZED)
             if admin_access[0].get("global_access"):
                 data = parsear_global_access(user_data)
             else:
                 data = parsear_admin_access(admin_access,user_data)
-            if not admin_access:
-                response = {
-                    "valid": False,
-                    "data": data,
-                    "message": 'El usuario no tiene obras para administrar.'
-                }
-            else:
-                
-                response = {
+            
+            response = {
                     "valid": True,
                     "data": data,
                     "message": 'El usuario tiene obras para administrar.'

@@ -33,7 +33,7 @@ class ColaboradorRepository:
         else:
             sql = sql.replace('--filter--', " AND centro_costo  in (%s) AND planta_noplanta='NP'")
             params=[tuple(centro_costo)]
-            print(sql)
+            ##print(sql)
         return DWConnectionUtils.fetch_dicts(sql, params)
     
     @staticmethod

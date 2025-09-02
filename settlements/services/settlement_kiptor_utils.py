@@ -81,8 +81,6 @@ def parsear_resultado(resultado):
          "fecha_saldo":  resultado[0]['fecha_vacacion']
     }
     for res in resultado:
-        print(res['tipo_2'].upper())
-        print(res['tipo'].upper())
         if res['tipo_2'].upper() == 'VARIABLE' and res['tipo'].upper() == 'IMPONIBLE':
 
             datos['VARIABLE_IM'] = res['importe']
@@ -132,8 +130,6 @@ def parsear_body_for_kiptor(data_colaborador,datos_finiquito,valor_uf):
                 "sueldo_base":datos_finiquito['BASE'],
             },
         }
-    print(datos_finiquito.get('VARIABLE_IM'))
-    print(datos_finiquito.get('VARIABLE_NI'))
     # Usar .get() para evitar KeyError y permitir valores opcionales
     if datos_finiquito.get('GRATIFICACION'):
         conceptos['imp']['gratificacion'] = datos_finiquito['GRATIFICACION']
