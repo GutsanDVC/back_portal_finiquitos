@@ -27,17 +27,17 @@ load_dotenv(dotenv_path=BASE_DIR / '.env')
 SECRET_KEY = "django-insecure-7cb$#lx^)ja8phml(euccdb@reju=mmw8q3ch%)a1az)c*xdew"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
 ALLOWED_HOSTS = [
-    "http://localhost:5173",
+    "localhost",
     ".grupoflesan.com",
-    "https://backfiniquitos.grupoflesan.com",
-    "https://qafiniquitos.grupoflesan.com",
+    "backfiniquitos.grupoflesan.com",
+    "qafiniquitos.grupoflesan.com",
     "192.168.10.47",
     "127.0.0.1",
-    "https://calculadorfiniquitos.grupoflesan.com",
-    "https://apicalculadorfiniquitos.grupoflesan.com"
+    "calculadorfiniquitos.grupoflesan.com",
+    "apicalculadorfiniquitos.grupoflesan.com"
 ]
 
 GOOGLE_ID_TOKEN_INFO_URL = "https://www.googleapis.com/oauth2/v3/tokeninfo"
@@ -61,7 +61,7 @@ INSTALLED_APPS = [
     "custom_auth",          # Autenticación
     
     # Autenticación social y API REST
-    "django.contrib.sites",         # Requerido por allauth
+    # "django.contrib.sites",         # Requerido por allauth
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
@@ -80,7 +80,6 @@ SITE_ID = 1
 # Permitir peticiones CORS desde localhost:5173 (por ejemplo, para Vite, React, etc.)
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "https://*.grupoflesan.com",
     "https://backfiniquitos.grupoflesan.com",
     "https://qafiniquitos.grupoflesan.com",
     "https://192.168.10.47",
@@ -94,13 +93,13 @@ CORS_ALLOWED_ORIGINS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "portal_finiquitos.urls"
