@@ -1,7 +1,7 @@
 import os
 import psycopg2
 from dotenv import load_dotenv
-
+from utils.txt_logger import writeTxtLog
 # Repositorio para acceso directo a la tabla portal_finiquitos.global_access_user
 # Todas las operaciones se hacen por SQL directo, no ORM.
 

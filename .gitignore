@@ -1,6 +1,6 @@
 # Entorno virtual
 venv/
-
+a
 # Archivos de entorno
 .env
 .env.*
@@ -21,3 +21,7 @@ __pycache__/
 
 # Archivos de VSCode
 .vscode/
+
+
+#app-log.txt
+logs/app-log.txt
