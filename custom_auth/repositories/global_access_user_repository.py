@@ -81,15 +81,18 @@ def obtener_usuario_por_email(email):
     email=email.lower() # Convertir a minúsculas para hacer la búsqueda insensible a mayúsculas y minúsculas
     with get_db_connection() as conn:
         with conn.cursor() as cursor:
+            writeTxtLog("email",email,"INFO")
             cursor.execute("""
                 SELECT np, nombre, email, usuario_creo, created_at, activo, ver_nfg
                 FROM portal_finiquitos.global_access_user
                 WHERE email = %s AND activo = true
             """, [email])
             row = cursor.fetchone()
+            writeTxtLog("row",row,"INFO")
             if row:
                 columns = [col[0] for col in cursor.description]
                 response = dict(zip(columns, row))
+                writeTxtLog("response",response,"INFO")
                 return response
             return None
 

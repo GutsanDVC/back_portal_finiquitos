@@ -4,13 +4,14 @@ import requests
 import os
 from warehouse.repositories.centro_costo_repository import CentroCostoRepository
 from custom_auth.repositories.global_access_user_repository import obtener_usuario_por_email
-
+from utils.txt_logger import writeTxtLog
 def google_validate_id_token(*, id_token: str) -> dict:
 
     response = requests.get(
         settings.GOOGLE_ID_TOKEN_INFO_URL, params={"id_token": id_token}
     )
     if not response.ok:
+        writeTxtLog(response,"ERROR")
         raise ValidationError("id_token is invalid.")
 
     token_info = response.json()
@@ -20,6 +21,7 @@ def google_validate_id_token(*, id_token: str) -> dict:
     # Prints de depuración
 
     if audience != os.getenv("GOOGLE_AUTH_CLIENT_ID"):
+        writeTxtLog("Invalid audience.","ERROR")
         raise ValidationError("Invalid audience.")
 
     user_data = {
