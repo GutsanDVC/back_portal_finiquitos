@@ -53,15 +53,12 @@ INSTALLED_APPS = [
 
     # Apps del proyecto Portal Finiquitos
     "users",         # Gestión de usuarios y perfiles
-    "employees",     # Datos maestros de trabajadores
-    "settlements",   # Lógica y modelos de finiquitos
-    "audit",         # Logs y trazabilidad de acciones
-    "core",          # Utilidades y configuración global
+    "salary",        # Salarios
+    "finiquito",     # Finiquitos
     "warehouse",     # Almacén de datos
     "custom_auth",          # Autenticación
     
     # Autenticación social y API REST
-    # "django.contrib.sites",         # Requerido por allauth
     "allauth",
     "allauth.account",
     "allauth.socialaccount",

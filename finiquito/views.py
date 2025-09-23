@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from settlements.repositories.settlement_repository import SettlementRepository
+from finiquito.repositories.settlement_repository import SettlementRepository
 
 class SettlementCalculationView(APIView):
     """

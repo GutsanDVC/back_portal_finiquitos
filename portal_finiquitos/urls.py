@@ -19,14 +19,14 @@ from django.contrib import admin
 from django.urls import path, include
 from users import urls as users_urls
 from warehouse import urls as warehouse_urls
-from settlements import urls as settlements_urls
+from finiquito import urls as finiquito_urls
 from custom_auth import urls as auth_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Endpoint API para warehouse (DW)
     path('api/warehouse/', include(warehouse_urls)),
-    path('api/settlements/', include(settlements_urls)),
+    path('api/finiquito/', include(finiquito_urls)),
     path('api/users/', include(users_urls)),
     path('api/auth/', include(auth_urls)),
 ]

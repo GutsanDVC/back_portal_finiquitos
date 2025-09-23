@@ -10,3 +10,4 @@ dj_rest_auth
 django-cors-headers
 djangorestframework-simplejwt
 requests
+cryptography

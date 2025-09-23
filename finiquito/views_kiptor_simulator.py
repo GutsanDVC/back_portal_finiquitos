@@ -1,14 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from settlements.services.kiptor_service import simulate_settlement_kiptor
-from settlements.services.settlement_kiptor_utils import (
-    parsear_datos, parsear_resultado, parsear_todo,parsear_body_for_kiptor
+from finiquito.services.kiptor_service import simulate_settlement_kiptor
+from finiquito.services.settlement_kiptor_utils import (
+    parsear_datos, parsear_resultado, parsear_body_for_kiptor
 )
-from settlements.repositories.settlement_repository import SettlementRepository
+from finiquito.repositories.settlement_repository import SettlementRepository
 from warehouse.repositories.uf_repository import UfRepository
-from log.log_finiquitos_repository import crear_log_finiquito
-from datetime import datetime
 
 class KiptorSettlementSimulatorView(APIView):
     """

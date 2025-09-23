@@ -1,8 +1,7 @@
 """
 Pruebas unitarias para el cálculo de finiquito en settlements.
 """
-import pytest
-from settlements.services.settlement_calculator import calculate_settlement
+from finiquito.services.settlement_calculator import calculate_settlement
 
 def test_calculate_settlement_single():
     empleado = {
