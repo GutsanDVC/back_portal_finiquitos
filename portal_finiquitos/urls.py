@@ -21,6 +21,7 @@ from users import urls as users_urls
 from warehouse import urls as warehouse_urls
 from finiquito import urls as finiquito_urls
 from custom_auth import urls as auth_urls
+from salary import urls as salary_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,4 +30,5 @@ urlpatterns = [
     path('api/finiquito/', include(finiquito_urls)),
     path('api/users/', include(users_urls)),
     path('api/auth/', include(auth_urls)),
+    path('api/salary/', include(salary_urls)),
 ]
