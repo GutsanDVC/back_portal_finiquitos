@@ -71,3 +71,42 @@ class ExternalCode162ListView(APIView):
         except Exception as e:
             # Retorna error genérico y mensaje para debug
             return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class CompensacionPorNpView(APIView):
+    """
+    Endpoint para obtener el sueldo base y valor de hora extra de un colaborador por su NP.
+    Requiere el parámetro 'np' en la URL como query parameter.
+    """
+    def get(self, request, *args, **kwargs):
+        np = request.query_params.get('np')
+        
+        if not np:
+            return Response(
+                {'detail': 'El parámetro "np" es requerido'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Validar que np sea un número
+        try:
+            np = int(np)
+        except (ValueError, TypeError):
+            return Response(
+                {'detail': 'El parámetro "np" debe ser un número válido'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        try:
+            compensacion = ColaboradorRepository.obtener_compensacion_por_np(np)
+            
+            if compensacion:
+                return Response(compensacion, status=status.HTTP_200_OK)
+            else:
+                return Response(
+                    {'detail': f'No se encontró información de compensación para el NP {np}'}, 
+                    status=status.HTTP_404_NOT_FOUND
+                )
+                
+        except Exception as e:
+            # Retorna error genérico y mensaje para debug
+            return Response({'detail': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
